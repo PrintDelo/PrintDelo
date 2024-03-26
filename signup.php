@@ -1,9 +1,9 @@
 <?php
-// MySQL database credentials
-$servername = "localhost"; // Change this to your MySQL server hostname
-$username = "your_username"; // Change this to your MySQL username
-$password = "your_password"; // Change this to your MySQL password
-$database = "your_database"; // Change this to your MySQL database name
+// Database connection details
+$servername = "sql113.byethost31.com"; // Change this if your MySQL server is on a different host
+$username = "b31_36158185"; // Your MySQL username
+$password = "nerfdelo"; // Your MySQL password
+$database = "b31_36158185_admin"; // Your MySQL database name
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $database);
@@ -13,18 +13,16 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Process form submission
+// Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Retrieve form data
     $username = $_POST["username"];
     $email = $_POST["email"];
     $password = $_POST["password"];
-    $confirm_password = $_POST["confirm_password"];
 
-    // Validate input (You can add more validation as per your requirements)
-
-    // Insert data into the database
-    $sql = "INSERT INTO users (username, email, password) VALUES ('$username', '$email', '$password')";
-
+    // Insert user data into database
+    $sql = "INSERT INTO user (username, email, password) VALUES ('$username', '$email', '$password')";
+    
     if ($conn->query($sql) === TRUE) {
         echo "New record created successfully";
     } else {
