@@ -1,3 +1,48 @@
+<?php
+// Database connection parameters
+$servername = "sql113.byethost31.com";
+$username = "b31_36158185";
+$password = "nerfdelo";
+$dbname = "b31_36158185_admin";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Check if form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Retrieve input username and password
+    $username_input = $_POST['username'];
+    $password_input = $_POST['password'];
+
+    // Sanitize user inputs to prevent SQL injection
+    $username = $conn->real_escape_string($username_input);
+    $password = $conn->real_escape_string($password_input);
+
+    // SQL query to check if the username and password match
+    $sql = "SELECT * FROM users WHERE username='$username' AND password='$password'";
+    $result = $conn->query($sql);
+
+    // Check if the query returns any rows
+    if ($result->num_rows > 0) {
+        // Authentication successful
+        // Redirect user to your desired page
+        header("Location: http://nerfdelo.byethost31.com/homepage.html");
+        exit(); // Make sure to exit after redirection
+    } else {
+        // Authentication failed
+        echo ".";
+    }
+}
+
+// Close connection
+$conn->close();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -181,7 +226,7 @@ body {
 <body>
 <div class="login-box">
   <h2>Login</h2>
-  <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+   <form method="post" action="login.php" onsubmit="return validateForm()">
     <div class="user-box">
       <input type="text" name="username" required="">
       <label>Username</label>
@@ -190,14 +235,14 @@ body {
       <input type="password" name="password" required="">
       <label>Password</label>
     </div>
-   <button type="submit">
+   <button type="submit" name="submit">
   <span></span>
   <span></span>
   <span></span>
   <span></span>
   Submit
 </button><br>
-<a href="http://delo.66ghz.com/signup.html">
+<button class="btn-signup" onclick="location.href='http://delo.66ghz.com/signup.html';" type="button"
   <button>
   <span></span>
   <span></span>
